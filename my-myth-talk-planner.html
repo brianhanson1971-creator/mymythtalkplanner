@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Myth — Talk Planning Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-secondary: #5a5650;
+    --ink-tertiary: #8a8680;
+    --parchment: #faf7f2;
+    --parchment-mid: #f2ede4;
+    --parchment-deep: #e8e0d4;
+    --border: #d4ccc0;
+    --border-light: #e4ddd4;
+    --gold: #b8860b;
+    --gold-light: #f5e6c0;
+    --gold-mid: #d4a820;
+    --coral: #8b3a2a;
+    --coral-light: #f5e8e5;
+    --teal: #2a6b5e;
+    --teal-light: #e0f0ec;
+    --purple: #5a4a7a;
+    --purple-light: #ede8f5;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  html { font-size: 16px; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--parchment); color: var(--ink); line-height: 1.6; min-height: 100vh; }
+
+  .site-header {
+    background: var(--ink); padding: 2.5rem 2rem 2rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .site-header::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px);
+  }
+  .site-header h1 { font-family: 'Lora', serif; font-size: 2.2rem; font-weight: 400; color: var(--gold-light); letter-spacing: 0.02em; position: relative; }
+  .site-header .sub { font-size: 0.85rem; color: #a09888; margin-top: 6px; font-weight: 300; letter-spacing: 0.06em; position: relative; }
+  .site-header .epigraph { font-family: 'Lora', serif; font-style: italic; font-size: 0.95rem; color: #c8b898; margin-top: 10px; position: relative; }
+  .header-rule { width: 60px; height: 1px; background: var(--gold-mid); margin: 1rem auto 0; position: relative; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  .section-label {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-tertiary); margin-bottom: 0.75rem; margin-top: 2.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
+
+  .card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+
+  label.field-label { display: block; font-size: 0.82rem; color: var(--ink-secondary); margin-bottom: 6px; }
+  textarea, input[type="text"] {
+    width: 100%; background: var(--parchment); border: 0.5px solid var(--border);
+    border-radius: var(--radius); padding: 9px 12px; font-size: 0.9rem; color: var(--ink);
+    font-family: 'DM Sans', sans-serif; resize: vertical; line-height: 1.55; outline: none; transition: border-color 0.15s;
+  }
+  textarea:focus, input:focus { border-color: #9b8bbf; background: #fff; }
+  .field-group { margin-bottom: 1rem; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  .beat-card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 12px; overflow: hidden; }
+  .beat-header { display: flex; align-items: stretch; }
+  .beat-num-col {
+    width: 56px; background: var(--ink); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 1rem 0; flex-shrink: 0;
+  }
+  .beat-num { font-family: 'Lora', serif; font-size: 1.5rem; color: var(--gold-light); line-height: 1; }
+  .beat-num-label { font-size: 0.6rem; color: #a09888; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 3px; }
+  .beat-title-col { padding: 1rem 1.25rem; flex: 1; }
+  .beat-name { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 400; color: var(--ink); }
+  .beat-time { font-size: 0.75rem; color: var(--ink-tertiary); margin-top: 2px; letter-spacing: 0.03em; }
+  .beat-sub { font-size: 0.82rem; color: var(--ink-secondary); margin-top: 4px; font-style: italic; }
+  .beat-body { padding: 0 1.25rem 1.25rem; }
+  .beat-note { font-size: 0.82rem; color: var(--ink-secondary); font-style: italic; margin-bottom: 12px; padding-top: 4px; }
+  .beat-prompt {
+    font-size: 0.82rem; color: var(--ink-secondary); background: var(--parchment);
+    border-left: 2px solid var(--parchment-deep); padding: 7px 12px;
+    margin-bottom: 8px; border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .beat-warning {
+    font-size: 0.8rem; color: var(--coral); background: var(--coral-light);
+    border-radius: var(--radius); padding: 8px 12px; margin-top: 10px;
+    border: 0.5px solid #d4a090;
+  }
+
+  .timing-grid { display: grid; gap: 6px; }
+  .timing-row { display: grid; grid-template-columns: 130px 110px 1fr; align-items: center; gap: 12px; padding: 8px 12px; background: var(--parchment); border-radius: var(--radius); border: 0.5px solid var(--border-light); font-size: 0.83rem; }
+  .timing-row.ordeal { background: var(--gold-light); border-color: #d4a820; }
+  .timing-beat { font-weight: 500; color: var(--ink); }
+  .timing-time { color: var(--ink-tertiary); font-size: 0.78rem; }
+  .timing-q { color: var(--ink-secondary); }
+  .timing-row.ordeal .timing-beat, .timing-row.ordeal .timing-q { color: var(--gold); }
+  .timing-row.ordeal .timing-time { color: #c4921a; }
+
+  .myth-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .myth-col { background: var(--parchment); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem; }
+  .myth-col-head { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 12px; }
+  .myth-field { margin-bottom: 10px; }
+  .myth-field:last-child { margin-bottom: 0; }
+  .myth-field label { font-size: 0.75rem; color: var(--ink-tertiary); display: block; margin-bottom: 4px; }
+  .myth-field textarea { font-size: 0.85rem; }
+
+  .integration-box { background: var(--teal-light); border: 0.5px solid #7fcab8; border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
+  .integration-box p { font-size: 0.88rem; color: var(--teal); line-height: 1.6; }
+
+  .visual-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .visual-opt {
+    border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem;
+    cursor: pointer; transition: all 0.15s; background: var(--parchment); user-select: none;
+  }
+  .visual-opt:hover { border-color: #9b8bbf; }
+  .visual-opt.selected { background: var(--purple-light); border-color: var(--purple); }
+  .visual-opt input[type="radio"] { display: none; }
+  .visual-opt-label { font-size: 0.75rem; font-weight: 500; color: var(--ink-tertiary); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 5px; }
+  .visual-opt.selected .visual-opt-label { color: var(--purple); }
+  .visual-opt-name { font-family: 'Lora', serif; font-size: 1rem; color: var(--ink); margin-bottom: 5px; }
+  .visual-opt-desc { font-size: 0.78rem; color: var(--ink-secondary); line-height: 1.5; }
+
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 0.5px solid var(--border-light); }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item input[type="checkbox"] { margin-top: 2px; width: 15px; height: 15px; flex-shrink: 0; accent-color: var(--purple); }
+  .checklist-item span { font-size: 0.88rem; color: var(--ink); line-height: 1.5; }
+  .checklist-item .detail { font-size: 0.75rem; color: var(--ink-tertiary); display: block; margin-top: 1px; }
+  .checklist-item.done span { color: var(--ink-tertiary); text-decoration: line-through; }
+  .progress-wrap { height: 5px; background: var(--parchment-deep); border-radius: 99px; overflow: hidden; margin-top: 14px; margin-bottom: 5px; }
+  .progress-bar { height: 100%; background: var(--purple); border-radius: 99px; transition: width 0.3s ease; width: 0%; }
+  .progress-label { font-size: 0.78rem; color: var(--ink-tertiary); text-align: right; }
+
+  .debrief-block { border-left: 2px solid var(--parchment-deep); padding-left: 14px; margin-bottom: 1.25rem; }
+  .debrief-block:last-child { margin-bottom: 0; }
+  .debrief-q { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .debrief-note { font-size: 0.82rem; color: var(--ink-secondary); font-style: italic; margin-bottom: 8px; }
+
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--ink);
+    color: var(--gold-light); border: none; border-radius: var(--radius); padding: 9px 18px;
+    font-size: 0.85rem; font-family: 'DM Sans', sans-serif; cursor: pointer;
+    letter-spacing: 0.03em; margin-top: 2rem; transition: background 0.15s;
+  }
+  .print-btn:hover { background: #333; }
+
+  .closing-line { font-family: 'Lora', serif; font-style: italic; font-size: 1rem; color: var(--ink-secondary); text-align: center; margin-top: 2.5rem; padding-top: 2rem; border-top: 0.5px solid var(--border); }
+  .footer-note { margin-top: 2rem; padding: 1rem 1.25rem; background: var(--parchment-mid); border-radius: var(--radius); font-size: 0.8rem; color: var(--ink-secondary); border: 0.5px solid var(--border-light); font-style: italic; }
+
+  @media print {
+    .print-btn { display: none; }
+    body { background: #fff; }
+    .site-header, .beat-num-col { background: #1a1814 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.6rem; }
+    .myth-compare, .visual-options { grid-template-columns: 1fr; }
+    .timing-row { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>My Myth</h1>
+  <p class="sub">TED-Style Talk &nbsp;·&nbsp; Planning Document</p>
+  <p class="epigraph">"I lived something. &nbsp; I found it in a myth. &nbsp; Here's what that taught us."</p>
+  <div class="header-rule"></div>
+</header>
+
+<div class="container">
+
+  <div class="card" style="margin-top:0;">
+    <p style="font-size:0.88rem;color:var(--ink-secondary);">Work through each beat <em>before</em> your rehearsal. Fill in the planning prompts with notes — not a full script. Your talk must feel lived-in, not memorized.</p>
+  </div>
+
+  <p class="section-label">The six required beats</p>
+  <div id="beats-container"></div>
+
+  <p class="section-label">Mythology comparison</p>
+  <div class="card">
+    <div class="myth-compare">
+      <div class="myth-col">
+        <p class="myth-col-head">Mythology #1</p>
+        <div class="myth-field">
+          <label>Tradition / culture</label>
+          <textarea rows="2" placeholder="e.g. Norse, Egyptian, Greek..."></textarea>
+        </div>
+        <div class="myth-field">
+          <label>Figure or story</label>
+          <textarea rows="2" placeholder="e.g. Inanna's descent, Osiris..."></textarea>
+        </div>
+        <div class="myth-field">
+          <label>What it adds to your story</label>
+          <textarea rows="3" placeholder="What does this myth let you say that you couldn't say alone?"></textarea>
+        </div>
+      </div>
+      <div class="myth-col">
+        <p class="myth-col-head">Mythology #2</p>
+        <div class="myth-field">
+          <label>Tradition / culture</label>
+          <textarea rows="2" placeholder="e.g. Norse, Egyptian, Greek..."></textarea>
+        </div>
+        <div class="myth-field">
+          <label>Figure or story</label>
+          <textarea rows="2" placeholder="e.g. Gilgamesh, Persephone..."></textarea>
+        </div>
+        <div class="myth-field">
+          <label>What this one adds differently</label>
+          <textarea rows="3" placeholder="What does this myth show that myth #1 can't? What angle or complication does it bring?"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="integration-box">
+      <p><strong>The integration test:</strong> If someone who had never studied mythology heard your talk, would they understand <em>why</em> the myth matters to your story — or would they just hear a name they don't recognize? If they'd just hear a name: you have more work to do.</p>
+    </div>
+  </div>
+
+  <p class="section-label">Timing guide</p>
+  <div class="card">
+    <div class="timing-grid">
+      <div class="timing-row"><span class="timing-beat">1 · The Hook</span><span class="timing-time">0:00 – 1:30</span><span class="timing-q">What moment drops us into your experience?</span></div>
+      <div class="timing-row"><span class="timing-beat">2 · The Turn</span><span class="timing-time">1:30 – 2:30</span><span class="timing-q">What does a stranger need to know about myth #1?</span></div>
+      <div class="timing-row"><span class="timing-beat">3 · Second Myth</span><span class="timing-time">2:30 – 4:00</span><span class="timing-q">What does myth #2 add that myth #1 can't?</span></div>
+      <div class="timing-row ordeal"><span class="timing-beat">4 · The Ordeal ★</span><span class="timing-time">4:00 – 6:30</span><span class="timing-q">Where do myth and life fuse most completely? (Longest section)</span></div>
+      <div class="timing-row"><span class="timing-beat">5 · The Insight</span><span class="timing-time">6:30 – 8:30</span><span class="timing-q">What does the audience leave knowing?</span></div>
+      <div class="timing-row"><span class="timing-beat">6 · The Return</span><span class="timing-time">8:30 – 10:00</span><span class="timing-q">How does the opening look different now?</span></div>
+    </div>
+    <p style="font-size:0.8rem;color:var(--ink-tertiary);margin-top:12px;font-style:italic;">Total: 7–10 minutes. Under 7 = underdeveloped. Over 10 = you haven't edited. Time yourself in rehearsal. The Ordeal must be your longest beat.</p>
+  </div>
+
+  <p class="section-label">Visual element</p>
+  <div class="card">
+    <label class="field-label" style="margin-bottom:12px;">Select the option you will use:</label>
+    <div class="visual-options">
+      <label class="visual-opt" onclick="selectVisual(this)">
+        <input type="radio" name="visual">
+        <p class="visual-opt-label">Option A</p>
+        <p class="visual-opt-name">Slide Deck</p>
+        <p class="visual-opt-desc">5–12 visual-first slides. No bullet points. Use words sparingly. At least one slide per mythology and one for your symbol or talisman.</p>
+      </label>
+      <label class="visual-opt" onclick="selectVisual(this)">
+        <input type="radio" name="visual">
+        <p class="visual-opt-label">Option B</p>
+        <p class="visual-opt-name">Physical Prop</p>
+        <p class="visual-opt-desc">One meaningful object that represents your symbol. Introduce it intentionally — explain its significance during the talk.</p>
+      </label>
+      <label class="visual-opt" onclick="selectVisual(this)">
+        <input type="radio" name="visual">
+        <p class="visual-opt-label">Option C</p>
+        <p class="visual-opt-name">Original Art</p>
+        <p class="visual-opt-desc">A drawing, painting, or illustrated map representing your journey or symbols. Display and reference it directly during your talk.</p>
+      </label>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Describe your visual — what is it, and what will it show?</label>
+      <textarea rows="2" placeholder="Be specific. What does the audience see, and when do you introduce it?"></textarea>
+    </div>
+    <div class="field-group">
+      <label class="field-label">What does it add that words alone can't?</label>
+      <textarea rows="2" placeholder="Ask yourself: would the audience understand my talk better without this visual? If yes, rethink it."></textarea>
+    </div>
+  </div>
+
+  <p class="section-label">Submission checklist</p>
+  <div class="card">
+    <div id="checklist-wrap"></div>
+    <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+    <p class="progress-label" id="prog-label">0 of 6 complete</p>
+  </div>
+
+  <p class="section-label">Speaker's debrief — complete within 24 hours of your talk</p>
+  <div class="card">
+    <p style="font-size:0.82rem;color:var(--ink-secondary);font-style:italic;margin-bottom:1.25rem;">This is not a summary of your talk. It is a window into your thinking as a speaker and mythologist. Write it seriously. Answer all four prompts.</p>
+    <div class="debrief-block">
+      <p class="debrief-q">Prompt 1</p>
+      <p class="debrief-note">What personal experience did you choose to mythologize, and why did it feel worth saying out loud in front of people? What was hard about making it public?</p>
+      <textarea rows="4" placeholder="Your response..."></textarea>
+    </div>
+    <div class="debrief-block">
+      <p class="debrief-q">Prompt 2</p>
+      <p class="debrief-note">Which two mythologies did you draw from, and how did each one appear in your talk? Be specific — name the figure, motif, or story and explain the connection you made.</p>
+      <textarea rows="5" placeholder="Your response..."></textarea>
+    </div>
+    <div class="debrief-block">
+      <p class="debrief-q">Prompt 3</p>
+      <p class="debrief-note">Describe your visual element and explain the choices behind it. What did it add to the talk that words alone couldn't?</p>
+      <textarea rows="4" placeholder="Your response..."></textarea>
+    </div>
+    <div class="debrief-block">
+      <p class="debrief-q">Prompt 4</p>
+      <p class="debrief-note">Name one specific technique from a recommended talk that you tried to use — or wish you had used — in your own talk. Name the talk, the technique, and your connection to it.</p>
+      <textarea rows="4" placeholder="Your response..."></textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button class="print-btn" onclick="window.print()">⎙ &nbsp;Print / Save as PDF</button>
+  </div>
+
+  <p class="closing-line">You've studied myth. Now stand up and live it — out loud, in front of people, with your own voice.</p>
+
+  <div class="footer-note">
+    Your responses are saved only in this browser tab — nothing is sent anywhere. To keep your work, use the print button above to save as a PDF, or copy your notes into a document before closing.
+  </div>
+
+</div>
+
+<script>
+const beats = [
+  {
+    num: 1, name: "The Hook", time: "0:00 – 1:30", sub: "Scene-based opening",
+    note: "Drop us into a specific moment. We should feel something before we understand anything. No summaries, no rhetorical questions, no dictionary definitions.",
+    prompts: [
+      "What is one specific scene, image, or moment from your experience that captures everything?",
+      "Where are you? What do you see, hear, or feel right at that instant?"
+    ],
+    rows: 5, warning: null
+  },
+  {
+    num: 2, name: "The Turn", time: "1:30 – 2:30", sub: "Introduce mythology #1",
+    note: "Pivot from the personal to the mythological. Teach the audience just enough about your first mythology to follow you. Make the connection explicit — out loud.",
+    prompts: [
+      "What is the name of the mythological tradition, figure, or myth? What does someone unfamiliar with it need to know?",
+      "How does it connect to your experience? Finish this sentence: 'This is like [myth] because...'"
+    ],
+    rows: 4, warning: null
+  },
+  {
+    num: 3, name: "The Second Myth", time: "2:30 – 4:00", sub: "Add the second myth",
+    note: "Your second mythology should add something — a different angle, a complication, a deepening. It should make the argument richer, not just longer.",
+    prompts: [
+      "What does this second myth show that the first one can't?",
+      "What tension or contradiction does it introduce?"
+    ],
+    rows: 4, warning: "If you cut this myth and no one notices, it isn't integrated — it's decoration. It must be directly related to the point you are trying to make."
+  },
+  {
+    num: 4, name: "The Ordeal", time: "4:00 – 6:30", sub: "The emotional core — give it room",
+    note: "Return to your experience — but now filtered through myth, so we understand it differently. This is the longest beat. This is where talks succeed or fail. Don't rush it.",
+    prompts: [
+      "What was the hardest moment? What did you actually lose, fear, or have to surrender?",
+      "How do both myths illuminate what happened? Use the language of the myth itself.",
+      "What moment in the myth mirrors the moment in your life most precisely?"
+    ],
+    rows: 7, warning: null
+  },
+  {
+    num: 5, name: "The Insight", time: "6:30 – 8:30", sub: "What the audience takes home",
+    note: "What did your myth teach the audience? Not just you — them. The best talks leave you with something transferable. Think beyond your own story.",
+    prompts: [
+      "Finish this sentence: 'What I want every person in this room to leave knowing is...'",
+      "How does your experience connect to something universal — grief, fear, identity, belonging, change?"
+    ],
+    rows: 5, warning: null
+  },
+  {
+    num: 6, name: "The Return", time: "8:30 – 10:00", sub: "Close with intention",
+    note: "Come back to your opening scene or image — but we see it differently now. End on something the audience will remember. Don't trail off. Your last line matters.",
+    prompts: [
+      "How does your opening image look different after everything you've said?",
+      "What is the single last thing you want ringing in the room when you step back?"
+    ],
+    rows: 4, warning: "Don't end on 'Thank you.' End on the idea itself."
+  }
+];
+
+function buildBeats() {
+  const container = document.getElementById('beats-container');
+  beats.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'beat-card';
+    const promptsHtml = b.prompts.map(p => `<p class="beat-prompt">→ ${p}</p>`).join('');
+    const warningHtml = b.warning ? `<p class="beat-warning">⚠ ${b.warning}</p>` : '';
+    div.innerHTML = `
+      <div class="beat-header">
+        <div class="beat-num-col">
+          <div class="beat-num">${b.num}</div>
+          <div class="beat-num-label">Beat</div>
+        </div>
+        <div class="beat-title-col">
+          <p class="beat-name">${b.name}</p>
+          <p class="beat-time">${b.time}</p>
+          <p class="beat-sub">${b.sub}</p>
+        </div>
+      </div>
+      <div class="beat-body">
+        <p class="beat-note">${b.note}</p>
+        ${promptsHtml}
+        <div class="field-group" style="margin-top:12px;">
+          <label class="field-label">Your notes for this beat:</label>
+          <textarea rows="${b.rows}" placeholder="Key phrases, images, lines you want to say — not a full script, just anchors..."></textarea>
+        </div>
+        ${warningHtml}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectVisual(el) {
+  document.querySelectorAll('.visual-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+const checklistItems = [
+  { text: "Talk outline", detail: "1–2 pages · all six beats · key phrases · timing notes · submitted in advance" },
+  { text: "Visual element (digital)", detail: "Slide deck, photo of prop, or photo of artwork" },
+  { text: "Works cited", detail: "3+ sources · MLA format" },
+  { text: "Teacher check-in", detail: "Completed before talk day — process requirement" },
+  { text: "Live talk", detail: "7–10 minutes · note cards allowed · no reading from a full script" },
+  { text: "Speaker's debrief", detail: "1 page · all four prompts · submitted within 24 hours of your talk" }
+];
+
+function buildChecklist() {
+  const wrap = document.getElementById('checklist-wrap');
+  checklistItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.id = `chk_${i}`;
+    cb.addEventListener('change', function() {
+      div.className = 'checklist-item' + (this.checked ? ' done' : '');
+      updateProgress();
+    });
+    const span = document.createElement('span');
+    span.innerHTML = `${item.text}<span class="detail">${item.detail}</span>`;
+    div.appendChild(cb);
+    div.appendChild(span);
+    wrap.appendChild(div);
+  });
+}
+
+function updateProgress() {
+  const total = checklistItems.length;
+  const done = document.querySelectorAll('[id^="chk_"]:checked').length;
+  document.getElementById('prog-bar').style.width = (done / total * 100) + '%';
+  document.getElementById('prog-label').textContent = `${done} of ${total} complete`;
+}
+
+buildBeats();
+buildChecklist();
+</script>
+</body>
+</html>
